@@ -1,0 +1,4 @@
+Bu ödev metni ve atıf yaptığı örnek kaynaklar kurgusaldır.
+Kurgusal şehir atlası farklı bir yaklaşım sunar (ÖRNEK, 2022).
+Hayali araçların tanımı için [1] incelenebilir.
+Bu atıfların kaynakçada karşılığı yoktur (Kurgu, 2021) ve [9].
