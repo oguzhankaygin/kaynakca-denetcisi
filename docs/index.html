@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kaynakça Denetçisi</title>
+  <link rel="stylesheet" href="./style.css">
+  <meta name="referrer" content="no-referrer">
+  <link rel="stylesheet" href="./pages.css">
+  <script src="./crossref.js" defer></script>
+  <script src="./pages.js" defer></script>
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Kaynakça Denetçisi</h1>
+      <button id="theme" type="button" aria-pressed="false">Koyu tema</button>
+    </header>
+    <p>Kaynakçanızın biçimini denetleyin ve elle doğrulama bağlantılarını alın.</p>
+    <form id="audit" data-browser>
+      <label for="input">Kaynakça</label>
+      <p id="help">Her kaynağı ayrı satıra yazın veya BibTeX içeriğini yapıştırın.</p>
+      <textarea id="input" rows="9" aria-describedby="help" required></textarea>
+      <label class="crossref-option">
+        <input id="crossref" type="checkbox" aria-describedby="crossref-help">
+        DOI’leri Crossref ile karşılaştır
+      </label>
+      <p id="crossref-help">Bu seçeneği açarsanız kaynakça metni değil, yalnızca DOI Crossref’e gönderilir.</p>
+      <button type="submit">Denetle</button>
+    </form>
+    <p id="privacy">Kaynakça metni tarayıcınızda işlenir ve hiçbir sunucuya gönderilmez. Elle doğrulama bağlantısını açarsanız bağlantıdaki arama terimi ilgili hizmete gider.</p>
+    <noscript>Denetim için tarayıcınızda JavaScript’i etkinleştirin.</noscript>
+    <p id="status" role="status"></p>
+    <div id="report-actions" hidden>
+      <button id="markdown" type="button">Markdown olarak indir</button>
+      <button id="print" type="button">Yazdır</button>
+    </div>
+    <section id="report" aria-label="Denetim raporu"></section>
+  </main>
+</body>
+</html>

@@ -2,7 +2,7 @@
 
 const form = document.querySelector("#audit");
 const input = document.querySelector("#input");
-const status = document.querySelector("#status");
+const statusMessage = document.querySelector("#status");
 const report = document.querySelector("#report");
 const submit = form.querySelector("button");
 const theme = document.querySelector("#theme");
@@ -46,6 +46,7 @@ function render(data) {
     append(article, "p", `Stil tahmini: ${ref.style} (%${Math.round(ref.confidence * 100)})`);
     if (ref.findings.length) findings(article, ref.findings);
     else append(article, "p", "Biçim bulgusu yok.");
+    if (ref.crossref) append(article, "p", ref.crossref.message);
     append(article, "h4", "Elle doğrulama kontrol listesi");
     const checklist = append(article, "ul");
     checklist.className = "checklist";
@@ -62,23 +63,31 @@ function render(data) {
   }
 }
 
+async function auditLocally(text) {
+  const response = await fetch("/api/denetle", {
+    method: "POST",
+    headers: {"X-Kaynakca-Request": "1", "Content-Type": "text/plain; charset=utf-8"},
+    body: text,
+  });
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.error);
+  return data;
+}
+
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
+  if (submit.disabled) return;
   report.replaceChildren();
-  status.textContent = "Denetleniyor…";
+  statusMessage.textContent = "Denetleniyor…";
   submit.disabled = true;
   try {
-    const response = await fetch("/api/denetle", {
-      method: "POST",
-      headers: {"X-Kaynakca-Request": "1", "Content-Type": "text/plain; charset=utf-8"},
-      body: input.value,
-    });
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.error);
+    const audit = form.hasAttribute("data-browser") ? window.auditBibliography : auditLocally;
+    if (!audit) throw new Error("Tarayıcı denetimi yüklenemedi. Sayfayı yenileyip yeniden deneyin.");
+    const data = await audit(input.value, (message) => { statusMessage.textContent = message; });
     render(data);
-    status.textContent = "Denetim tamamlandı.";
+    statusMessage.textContent = "Denetim tamamlandı.";
   } catch (error) {
-    status.textContent = `Denetim başarısız. ${error.message}`;
+    statusMessage.textContent = `Denetim başarısız. ${error.message}`;
   } finally {
     submit.disabled = false;
   }

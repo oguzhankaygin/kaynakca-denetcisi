@@ -9,7 +9,7 @@ from .report import build, render, to_json
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Kaynakça tutarlılık ve doğrulama denetçisi.")
-    parser.add_argument("kaynakca", help="UTF-8 dosya yolu, standart girdi için - veya web")
+    parser.add_argument("kaynakca", help="UTF-8 dosya yolu, standart girdi için - veya web/build-site")
     parser.add_argument("--metin", type=Path, help="Metin içi atıfları denetlenecek UTF-8 dosya")
     parser.add_argument("--crossref", action="store_true", help="DOI meta verisini çevrimiçi karşılaştır")
     formats = parser.add_mutually_exclusive_group()
@@ -17,6 +17,12 @@ def main(argv=None):
     formats.add_argument("--md", action="store_true", help="Markdown raporu")
     args = parser.parse_args(argv)
     try:
+        if args.kaynakca == "build-site":
+            if args.metin or args.crossref or args.json or args.md:
+                parser.error("build-site komutu ek seçenek almaz.")
+            from .site import build_site
+            build_site()
+            return 0
         if args.kaynakca == "web":
             if args.metin or args.crossref or args.json or args.md:
                 parser.error("web komutu ek seçenek almaz.")

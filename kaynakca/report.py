@@ -32,17 +32,20 @@ def links(ref):
     return result
 
 
-def build(text, *, bibtex=False, document=None, online=False):
+def build(text, *, bibtex=False, document=None, online=False, crossref_responses=None):
     refs = parse(text, bibtex)
     findings = audit(refs, document)
     by_reference = defaultdict(list)
     counts = Counter(f.severity for f in findings)
     for finding in findings:
         by_reference[finding.reference].append(asdict(finding))
-    results = crossref.lookup(refs) if online else {}
+    if crossref_responses is not None:
+        results = crossref.compare_responses(refs, crossref_responses)
+    else:
+        results = crossref.lookup(refs) if online else {}
     return {
         "notice": NOTICE,
-        "crossref_enabled": online,
+        "crossref_enabled": online or crossref_responses is not None,
         "summary": {
             "references": len(refs), "style": majority(refs),
             **{level: counts[level] for level in ("hata", "uyari", "bilgi")},

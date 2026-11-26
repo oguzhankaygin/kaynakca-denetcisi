@@ -1,0 +1,74 @@
+:root {
+  color-scheme: light dark;
+  --background: #f2f6f5;
+  --panel: #fff;
+  --text: #152a27;
+  --muted: #425e57;
+  --line: #768984;
+  --accent: #005e4b;
+  --button-text: #fff;
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --background: #101d1a;
+  --panel: #192b26;
+  --text: #eef8f4;
+  --muted: #b4cdc5;
+  --line: #718b82;
+  --accent: #87dfc4;
+  --button-text: #11251f;
+}
+:root[data-theme="light"] { color-scheme: light; }
+* { box-sizing: border-box; }
+body {
+  background: var(--background);
+  color: var(--text);
+  font: 1rem/1.6 system-ui, sans-serif;
+  margin: 0;
+}
+main { width: min(100% - 2rem, 52rem); margin: 2rem auto 4rem; }
+header { display: flex; gap: 1rem; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+h1 { font-size: clamp(1.65rem, 6vw, 2.65rem); letter-spacing: -.035em; margin: 0; }
+h2, h3 { line-height: 1.3; }
+p { color: var(--muted); }
+form, article {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: .75rem;
+  padding: clamp(1rem, 3vw, 1.5rem);
+  margin: 1rem 0;
+}
+label { font-weight: 650; }
+#help { margin: .15rem 0 .75rem; }
+textarea {
+  display: block;
+  width: 100%;
+  resize: vertical;
+  border: 1px solid var(--line);
+  border-radius: .45rem;
+  padding: .75rem;
+  background: var(--background);
+  color: var(--text);
+  font: inherit;
+  margin-bottom: 1rem;
+}
+button {
+  font: inherit;
+  font-weight: 650;
+  border: 1px solid var(--accent);
+  border-radius: .45rem;
+  color: var(--button-text);
+  background: var(--accent);
+  padding: .45rem .85rem;
+  cursor: pointer;
+}
+button:disabled { opacity: .65; cursor: wait; }
+#theme { background: var(--panel); color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+a { color: var(--accent); overflow-wrap: anywhere; }
+article { overflow-wrap: anywhere; }
+article h3 { margin-top: 0; }
+ul { padding-inline-start: 1.6rem; }
+li + li { margin-top: .35rem; }
+.checklist { list-style: none; padding-inline-start: 0; }
+.checklist input { margin-inline-end: .55rem; }

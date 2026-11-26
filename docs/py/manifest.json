@@ -1,0 +1,11 @@
+[
+  "__init__.py",
+  "__main__.py",
+  "browser.py",
+  "crossref.py",
+  "parse.py",
+  "report.py",
+  "rules.py",
+  "site.py",
+  "web.py"
+]
