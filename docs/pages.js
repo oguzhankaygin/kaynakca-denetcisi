@@ -94,3 +94,7 @@ document.querySelector("#markdown").addEventListener("click", () => {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 });
 document.querySelector("#print").addEventListener("click", () => window.print());
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("./sw.js").catch(() => {});
+}

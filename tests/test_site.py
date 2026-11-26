@@ -26,6 +26,17 @@ class SiteTests(unittest.TestCase):
                 self.assertEqual((docs / name).read_bytes(), (package / "static" / name).read_bytes())
         self.assertTrue((docs / ".nojekyll").is_file())
 
+    def test_service_worker_precache_files_exist(self):
+        docs = ROOT / "docs"
+        sw = (docs / "sw.js").read_text(encoding="utf-8")
+        listing = json.loads(sw.split("const DOSYALAR = ", 1)[1].split(";\n", 1)[0])
+        for name in listing[1:]:
+            with self.subTest(name=name):
+                self.assertTrue((docs / name).is_file())
+        pages = (docs / "pages.js").read_text(encoding="utf-8")
+        pinned = pages.split('const pyodideUrl = "', 1)[1].split('"', 1)[0]
+        self.assertIn(f'const PYODIDE = "{pinned}";', sw)
+
     @patch("kaynakca.crossref.urlopen")
     def test_offline_report_and_markdown(self, request):
         for text in (ENTRY, (ROOT / "ornekler/kaynakca.bib").read_text(encoding="utf-8")):
