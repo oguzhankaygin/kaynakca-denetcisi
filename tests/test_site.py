@@ -77,3 +77,28 @@ class SiteTests(unittest.TestCase):
         )
         self.assertIn("DOI kaydıyla uyumlu", result["markdown"])
         request.assert_not_called()
+
+
+class ManifestTests(unittest.TestCase):
+    def test_manifest_icons_and_links(self):
+        docs = ROOT / "docs"
+        manifest = json.loads((docs / "manifest.webmanifest").read_text(encoding="utf-8"))
+        self.assertEqual((manifest["lang"], manifest["start_url"], manifest["scope"], manifest["display"]),
+                         ("tr", "./", "./", "standalone"))
+        sizes = {}
+        for icon in manifest["icons"]:
+            data = (docs / icon["src"]).read_bytes()
+            if icon["type"] == "image/png":
+                self.assertEqual(data[:8], b"\x89PNG\r\n\x1a\n")
+                width, height = int.from_bytes(data[16:20], "big"), int.from_bytes(data[20:24], "big")
+                self.assertEqual(icon["sizes"], f"{width}x{height}")
+                sizes.setdefault(icon["purpose"], set()).add(width)
+        self.assertLessEqual({192, 512}, sizes["any"])
+        self.assertIn(512, sizes["maskable"])
+        index = (docs / "index.html").read_text(encoding="utf-8")
+        for link in ('rel="manifest" href="./manifest.webmanifest"', 'name="theme-color"',
+                     'rel="icon" href="./ikon.svg"', 'rel="apple-touch-icon" href="./ikon-192.png"'):
+            self.assertIn(link, index)
+        sw = (docs / "sw.js").read_text(encoding="utf-8")
+        for name in ("manifest.webmanifest", "ikon.svg", "ikon-192.png", "ikon-512.png"):
+            self.assertIn(f'"./{name}"', sw)

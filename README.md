@@ -8,6 +8,8 @@ Komut satırı ve yerel web arayüzü için Python 3.10 veya üstü yeterlidir. 
 
 [Kaynakça Denetçisi’ni aç](https://oguzhankaygin.github.io/kaynakca-denetcisi/). Araç ücretsizdir ve kurulum gerektirmez. Kaynakçayı yapıştırıp **Denetle**’ye basın. İlk denetimde tarayıcı [Pyodide 0.27.7’yi jsDelivr’dan](https://pyodide.org/en/0.27.7/usage/downloading-and-deploying.html) yükler ve aynı Python paketini çalıştırır. Raporu Markdown olarak indirebilir veya yazdırabilirsiniz.
 
+Telefonda tarayıcı menüsündeki **Ana ekrana ekle** (iPhone’da Paylaş → Ana Ekrana Ekle) seçeneğiyle uygulama gibi açabilirsiniz; ilk denetimden sonra internetsiz de çalışır.
+
 Kaynakça metni denetim sırasında hiçbir sunucuya gönderilmez. Varsayılan olarak kapalı olan **DOI’leri Crossref ile karşılaştır** seçeneğini açarsanız tarayıcı yalnızca geçerli DOI’leri doğrudan Crossref’e gönderir. Bir elle doğrulama bağlantısını açarsanız bağlantıdaki arama terimi ilgili hizmete gider.
 
 GitHub Pages yayın kaynağı için **Settings → Pages** bölümünde **Deploy from a branch**, ardından `main` ve `/docs` seçeneklerini belirleyin. Python veya ortak arayüz dosyalarını değiştirdiğinizde repo kökünde `python3 -m kaynakca build-site` çalıştırarak yayın kopyalarını güncelleyin. [GitHub Pages yayın kaynağı belgeleri](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)

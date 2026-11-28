@@ -2,10 +2,10 @@
 
 // Kendi dosyalarımız ağ öncelikli; sürümü sabit Pyodide dosyaları önbellek öncelikli.
 // Denetim bir kez çalıştırıldıktan sonra sayfa internetsiz de kullanılabilir.
-const CACHE = "kaynakca-denetcisi-v1";
+const CACHE = "kaynakca-denetcisi-v2";
 const PYODIDE = "https://cdn.jsdelivr.net/pyodide/v0.27.7/full/";
 const DOSYALAR = ["./", "./index.html", "./app.js", "./crossref.js", "./pages.js", "./pages.css", "./style.css",
-  "./py/manifest.json"];
+  "./manifest.webmanifest", "./ikon.svg", "./ikon-192.png", "./ikon-512.png", "./py/manifest.json"];
 
 self.addEventListener("install", event => {
   event.waitUntil((async () => {
